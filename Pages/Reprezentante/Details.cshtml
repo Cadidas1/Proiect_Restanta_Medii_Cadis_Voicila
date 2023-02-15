@@ -1,0 +1,25 @@
+﻿@page
+@model Proiect_Restanta_Medii_Cadis_Voicila.Pages.Reprezentante.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Reprezentanta</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Reprezentanta.NumeReprezentanta)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Reprezentanta.NumeReprezentanta)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Reprezentanta?.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

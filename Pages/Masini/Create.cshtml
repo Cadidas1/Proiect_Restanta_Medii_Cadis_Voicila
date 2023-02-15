@@ -1,0 +1,63 @@
+﻿@page
+@model Proiect_Restanta_Medii_Cadis_Voicila.Pages.Masini.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Masina</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Masina.Model" class="control-label"></label>
+                <input asp-for="Masina.Model" class="form-control" />
+                <span asp-validation-for="Masina.Model" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masina.AgentInchirieri" class="control-label"></label>
+                <input asp-for="Masina.AgentInchirieri" class="form-control" />
+                <span asp-validation-for="Masina.AgentInchirieri" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masina.Pret" class="control-label"></label>
+                <input asp-for="Masina.Pret" class="form-control" />
+                <span asp-validation-for="Masina.Pret" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masina.AnulFabricarii" class="control-label"></label>
+                <input asp-for="Masina.AnulFabricarii" class="form-control" />
+                <span asp-validation-for="Masina.AnulFabricarii" class="textdanger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Masina.ReprezentantaID" class="control-label"> Nume Reprezentanta</label>
+                <select asp-for="Masina.ReprezentantaID" class="form-control" asp-items="ViewBag.ReprezentantaID">
+                </select>
+                <span asp-validation-for="Masina.ReprezentantaID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label asp-for="Masina.AgentInchirieriID" class="control-label">Nume Agent</label>
+                    <select asp-for="Masina.AgentInchirieriID" class="form-control" asp-items="ViewBag.AgentInchirieriID">
+                    </select>
+                    <span asp-validation-for="Masina.AgentInchirieriID" class="text-danger"></span>
+                </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
