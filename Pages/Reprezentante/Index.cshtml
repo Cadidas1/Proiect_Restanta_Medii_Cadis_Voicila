@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model Proiect_Restanta_Medii_Cadis_Voicila.Pages.Reprezentante.IndexModel
 
 @{
@@ -20,17 +20,56 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Reprezentanta) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumeReprezentanta)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.ReprezentantaData.Reprezentante)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.ReprezentantaID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeReprezentanta)
+                </td>
+                <td>
+                    <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@if (Model.ReprezentantaData.Masini != null)
+{
+    <h3>Masini inchiriate de catre agentii selectati</h3>
+    <table class="table">
+
+        @foreach (var item in Model.ReprezentantaData.Reprezentante)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.ReprezentantaID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+
+                <td>
+                    @{
+                        foreach (var b in item.Masini)
+                        {
+
+                            @b.Model @: @b.AgentInchirieri.NumeComplet
+
+                            <br />
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+
+}
