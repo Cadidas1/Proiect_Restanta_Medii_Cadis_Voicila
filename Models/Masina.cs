@@ -21,6 +21,8 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Models
 
         public int? ReprezentantaID { get; set; }
         public Reprezentanta? Reprezentanta { get; set; }
+
+        public ICollection<CategorieMasina>? CategoriiMasina { get; set; }
     } //
 
 }

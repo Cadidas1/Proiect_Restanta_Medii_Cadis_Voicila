@@ -19,18 +19,31 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Pages.Masini
             _context = context;
         }
 
-        public IList<Masina> Masina { get;set; } = default!;
+        public IList<Masina> Masina { get; set; } = default!;
+        public DateMasina MasinaD { get; set; }
+        public int MasinaID { get; set; }
+        public int CategorieID { get; set; }
 
-        public string AgentInchirieriSort { get; set; }
-        public async Task OnGetAsync(int? id, int? categorieID, string sortOrder, string
-searchString)
+        public async Task OnGetAsync(int? id, int? categorieID)
         {
-            if (_context.Masina != null)
-            {
-                Masina = await _context.Masina
-                    .Include(b => b.Reprezentanta)
 
-                    .ToListAsync();
+            MasinaD = new DateMasina();
+
+            MasinaD.Masini = await _context.Masina
+            .Include(b => b.Reprezentanta)
+            .Include(b => b.AgentInchirieri)
+            .Include(b => b.CategoriiMasina)
+            .ThenInclude(b => b.Categorie)
+            .AsNoTracking()
+            .OrderBy(b => b.Model)
+            .ToListAsync();
+
+            if (id != null)
+            {
+                MasinaID = id.Value;
+                Masina masina = MasinaD.Masini
+                .Where(i => i.ID == id.Value).Single();
+                MasinaD.Categorii = masina.CategoriiMasina.Select(s => s.Categorie);
             }
         }
     }

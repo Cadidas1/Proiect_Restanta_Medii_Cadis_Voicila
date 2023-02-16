@@ -9,5 +9,14 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Models
         public string Nume { get; set; }
         public string Prenume { get; set; }
 
+        [Display(Name = "Nume Complet")]
+        public string NumeComplet
+        {
+            get
+            {
+                return Nume + " " + Prenume;
+            }
+        }
+
     }
 }

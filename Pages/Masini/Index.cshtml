@@ -1,29 +1,24 @@
-﻿@page
+﻿@page "/"
 @model Proiect_Restanta_Medii_Cadis_Voicila.Pages.Masini.IndexModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Masini</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
 </p>
 
-<form asp-page="./Index" method="get">
-   
-</form>
-
 <table class="table">
     <thead>
         <tr>
-            
             <th>
-                @Html.DisplayNameFor(model => model.Masina[0].Model)
+                    @Html.DisplayNameFor(model => model.Masina[0].Model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Masina[0].AgentInchirieri)
+                    @Html.DisplayNameFor(model => model.Masina[0].AgentInchirieri)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Masina[0].Pret)
@@ -31,37 +26,55 @@
             <th>
                 @Html.DisplayNameFor(model => model.Masina[0].AnulFabricarii)
             </th>
-             <th>
-                    @Html.DisplayNameFor(model => model.Masina[0].Reprezentanta.NumeReprezentanta)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masina[0].Reprezentanta.NumeReprezentanta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Masina[0].CategoriiMasina)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Masina) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
+        @foreach (var item in Model.MasinaD.Masini)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.MasinaID)
+            {
+                selectedRow = "table-success";
+            }
+
+            <tr class="@selectedRow">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Model)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.AgentInchirieri.Nume)
                     @Html.DisplayFor(modelItem => item.AgentInchirieri.Prenume)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pret)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pret)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.AnulFabricarii)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Reprezentanta.NumeReprezentanta)
                 </td>
-        </tr>
-}
+                <td>
+                    @{
+                        foreach (var categorie in item.CategoriiMasina)
+                        {
+                            @categorie.Categorie.ID @: @categorie.Categorie.TipMasina <br />
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

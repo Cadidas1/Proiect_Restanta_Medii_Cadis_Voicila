@@ -19,11 +19,7 @@
                 <input asp-for="Masina.Model" class="form-control" />
                 <span asp-validation-for="Masina.Model" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Masina.AgentInchirieri" class="control-label"></label>
-                <input asp-for="Masina.AgentInchirieri" class="form-control" />
-                <span asp-validation-for="Masina.AgentInchirieri" class="text-danger"></span>
-            </div>
+            
             <div class="form-group">
                 <label asp-for="Masina.Pret" class="control-label"></label>
                 <input asp-for="Masina.Pret" class="form-control" />
@@ -35,10 +31,45 @@
                 <span asp-validation-for="Masina.AnulFabricarii" class="textdanger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Masina.ReprezentantaID" class="control-label">Nume Reprezentanta</label>
+                <select asp-for="Masina.ReprezentantaID" class="form-control" asp-items="ViewBag.ReprezentantaID">
+                </select>
+                <span asp-validation-for="Masina.ReprezentantaID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Masina.AgentInchirieriID" class="control-label">Nume Agent</label>
                 <select asp-for="Masina.AgentInchirieriID" class="form-control" asp-items="ViewBag.AgentInchirieriID">
                 </select>
                 <span asp-validation-for="Masina.AgentInchirieriID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <div class="table">
+                <table>
+                     <tr>
+                        @{
+                            int cnt = 0;
+                            foreach (var cat in Model.CategorieAtribuitaMasiniiList)
+                            {
+                                if (cnt++ % 3 == 0)
+                                {
+                                @:</tr><tr>
+                                }
+                                @:<td>
+                                    <input type="checkbox"
+                                     name="selectedCategorii"
+                                     value="@cat.CategorieID"
+                                     @(Html.Raw(cat.Atribuire ?
+"checked=\"checked\"" : "")) />
+                                     @cat.CategorieID @: @cat.Denumire
+                                @:</td>
+                                }
+                            @:</tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+
+            
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

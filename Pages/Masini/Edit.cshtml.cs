@@ -12,7 +12,7 @@ using Proiect_Restanta_Medii_Cadis_Voicila.Models;
 
 namespace Proiect_Restanta_Medii_Cadis_Voicila.Pages.Masini
 {
-    public class EditModel : PageModel
+    public class EditModel : CategoriiMasinaPageModel
     {
         private readonly Proiect_Restanta_Medii_Cadis_Voicila.Data.Proiect_Restanta_Medii_Cadis_VoicilaContext _context;
 
@@ -31,50 +31,76 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Pages.Masini
                 return NotFound();
             }
 
-            var masina =  await _context.Masina.FirstOrDefaultAsync(m => m.ID == id);
-            if (masina == null)
+            Masina = await _context.Masina
+                .Include(b => b.Reprezentanta)
+                .Include(b => b.AgentInchirieri)
+                .Include(b => b.CategoriiMasina).ThenInclude(b => b.Categorie)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+
+            
+            if (Masina == null)
             {
                 return NotFound();
             }
-            Masina = masina;
+
+            PopulateCategorieAtribuitaMasinii(_context, Masina);
+
+            var agentinchirieriList = _context.AgentInchirieri.Select(x => new
+            {
+                x.ID,
+                FullName = x.Prenume + " " + x.Nume
+            });
             ViewData["ReprezentantaID"] = new SelectList(_context.Set<Reprezentanta>(), "ID",
 "NumeReprezentanta");
+            ViewData["AgentInchirieriID"] = new SelectList(agentinchirieriList, "ID", "FullName");
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[]
+selectedCategorii)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Masina).State = EntityState.Modified;
+            var masinaToUpdate = await _context.Masina
+                .Include(i => i.Reprezentanta)
+                .Include(i => i.AgentInchirieri)
+                .Include(i => i.CategoriiMasina)
+                .ThenInclude(i => i.Categorie)
+                .FirstOrDefaultAsync(s => s.ID == id);
 
-            try
+            if (masinaToUpdate == null)
             {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<Masina>(
+            masinaToUpdate,
+            "Masina",
+            i => i.Model, i => i.AgentInchirieriID,
+            i => i.Pret, i => i.AnulFabricarii, i => i.ReprezentantaID))
+            {
+                UpdateCategoriiMasina(_context, selectedCategorii, masinaToUpdate);
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MasinaExists(Masina.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            //Apelam UpdateCategoriiMasina pentru a aplica informatiile din checkboxuri la entitatea Masini care
+            //este editata
+            UpdateCategoriiMasina(_context, selectedCategorii, masinaToUpdate);
+            PopulateCategorieAtribuitaMasinii(_context, masinaToUpdate);
+            return Page();
         }
 
-        private bool MasinaExists(int id)
-        {
-          return _context.Masina.Any(e => e.ID == id);
-        }
+
     }
+
 }
+
+
