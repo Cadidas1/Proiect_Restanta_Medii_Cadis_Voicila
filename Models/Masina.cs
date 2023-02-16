@@ -15,8 +15,10 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Models
         public AgentInchirieri? AgentInchirieri { get; set; }
 
         [Column(TypeName = "decimal(6, 2)")]
+        [Range(0.01, 500)]
         public decimal Pret { get; set; }
         [DataType(DataType.Date)]
+
         public DateTime AnulFabricarii { get; set; }
 
         public int? ReprezentantaID { get; set; }

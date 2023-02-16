@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +14,7 @@ using Proiect_Restanta_Medii_Cadis_Voicila.Models;
 
 namespace Proiect_Restanta_Medii_Cadis_Voicila.Pages.Masini
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : CategoriiMasinaPageModel
     {
         private readonly Proiect_Restanta_Medii_Cadis_Voicila.Data.Proiect_Restanta_Medii_Cadis_VoicilaContext _context;

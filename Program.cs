@@ -8,6 +8,8 @@ using Proiect_Restanta_Medii_Cadis_Voicila.Data;
 using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
@@ -15,9 +17,9 @@ builder.Services.AddAuthorization(options =>
 
 
 // Add services to the container.
-builder.Services.AddRazorPages(
-    options =>
+builder.Services.AddRazorPages(options =>
     {
+        options.Conventions.AuthorizeFolder("/Masini");
         options.Conventions.AuthorizeFolder("/Masini/Create", "AdminPolicy");
         options.Conventions.AllowAnonymousToPage("/Masini/Index");
         options.Conventions.AllowAnonymousToPage("/Masini/Details");
