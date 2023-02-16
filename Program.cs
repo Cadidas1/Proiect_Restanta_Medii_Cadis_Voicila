@@ -1,12 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Proiect_Restanta_Medii_Cadis_Voicila.Data;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Proiect_Restanta_Medii_Cadis_Voicila.Data;
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
+
+
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(
+    options =>
+    {
+        options.Conventions.AuthorizeFolder("/Masini/Create", "AdminPolicy");
+        options.Conventions.AllowAnonymousToPage("/Masini/Index");
+        options.Conventions.AllowAnonymousToPage("/Masini/Details");
+        options.Conventions.AuthorizeFolder("/Membrii", "AdminPolicy");
+        options.Conventions.AuthorizeFolder("/Reprezentante/Create", "AdminPolicy");
+        options.Conventions.AuthorizeFolder("/Categorii/Create", "AdminPolicy");
+    });
 builder.Services.AddDbContext<Proiect_Restanta_Medii_Cadis_VoicilaContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("Proiect_Restanta_Medii_Cadis_VoicilaContext") ?? throw new InvalidOperationException("Connection string 'Proiect_Restanta_Medii_Cadis_VoicilaContext' not found.")));
+
+options.UseSqlServer(builder.Configuration.GetConnectionString("Proiect_Restanta_Medii_Cadis_VoicilaContext") ??
+throw new InvalidOperationException("Connectionstring 'Proiect_Restanta_Medii_Cadis_VoicilaContext' not found.")));
+
+builder.Services.AddDbContext<LibraryIdentityContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("Proiect_Restanta_Medii_Cadis_VoicilaContext") ??
+throw new InvalidOperationException("Connectionstring 'Proiect_Restanta_Medii_Cadis_VoicilaContext' not found.")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+options.SignIn.RequireConfirmedAccount = true)
+ .AddRoles<IdentityRole>()
+ .AddEntityFrameworkStores<LibraryIdentityContext>();
+
 
 var app = builder.Build();
 
@@ -22,6 +54,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseAuthentication(); ;
 
 app.UseAuthorization();
 

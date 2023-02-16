@@ -21,5 +21,9 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Data
         public DbSet<Proiect_Restanta_Medii_Cadis_Voicila.Models.AgentInchirieri> AgentInchirieri { get; set; }
 
         public DbSet<Proiect_Restanta_Medii_Cadis_Voicila.Models.Categorie> Categorie { get; set; }
+
+        public DbSet<Proiect_Restanta_Medii_Cadis_Voicila.Models.Membru> Membru { get; set; }
+
+        public DbSet<Proiect_Restanta_Medii_Cadis_Voicila.Models.Inchiriere> Inchiriere { get; set; }
     }
 }

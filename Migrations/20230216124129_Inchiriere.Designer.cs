@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Proiect_Restanta_Medii_Cadis_Voicila.Data;
 
@@ -11,13 +12,14 @@ using Proiect_Restanta_Medii_Cadis_Voicila.Data;
 namespace Proiect_Restanta_Medii_Cadis_Voicila.Migrations
 {
     [DbContext(typeof(Proiect_Restanta_Medii_Cadis_VoicilaContext))]
-    partial class Proiect_Restanta_Medii_Cadis_VoicilaContextModelSnapshot : ModelSnapshot
+    [Migration("20230216124129_Inchiriere")]
+    partial class Inchiriere
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.14")
+                .HasAnnotation("ProductVersion", "6.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -83,32 +85,6 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Migrations
                     b.ToTable("CategorieMasina");
                 });
 
-            modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Inchiriere", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<DateTime>("DataReturnarii")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("MasinaID")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("MembruID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("MasinaID");
-
-                    b.HasIndex("MembruID");
-
-                    b.ToTable("Inchiriere");
-                });
-
             modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Masina", b =>
                 {
                     b.Property<int>("ID")
@@ -140,35 +116,6 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Migrations
                     b.HasIndex("ReprezentantaID");
 
                     b.ToTable("Masina");
-                });
-
-            modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Membru", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("Adresa")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NumarDeTelefon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nume")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Prenume")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Membru");
                 });
 
             modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Reprezentanta", b =>
@@ -207,21 +154,6 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Migrations
                     b.Navigation("Masina");
                 });
 
-            modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Inchiriere", b =>
-                {
-                    b.HasOne("Proiect_Restanta_Medii_Cadis_Voicila.Models.Masina", "Masina")
-                        .WithMany()
-                        .HasForeignKey("MasinaID");
-
-                    b.HasOne("Proiect_Restanta_Medii_Cadis_Voicila.Models.Membru", "Membru")
-                        .WithMany("Inchirieri")
-                        .HasForeignKey("MembruID");
-
-                    b.Navigation("Masina");
-
-                    b.Navigation("Membru");
-                });
-
             modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Masina", b =>
                 {
                     b.HasOne("Proiect_Restanta_Medii_Cadis_Voicila.Models.AgentInchirieri", "AgentInchirieri")
@@ -245,11 +177,6 @@ namespace Proiect_Restanta_Medii_Cadis_Voicila.Migrations
             modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Masina", b =>
                 {
                     b.Navigation("CategoriiMasina");
-                });
-
-            modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Membru", b =>
-                {
-                    b.Navigation("Inchirieri");
                 });
 
             modelBuilder.Entity("Proiect_Restanta_Medii_Cadis_Voicila.Models.Reprezentanta", b =>
